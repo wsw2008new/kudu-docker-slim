@@ -12,9 +12,15 @@ docker run -d --rm --name apache-kudu --net=host usuresearch/kudu-docker-slim
 
 If using the host network is no option, you can use something like
 ```
-docker run -d --rm --name apache-kudu -p 18050:8050 -p 18051:8051 -p 17050:7050 -p 17051:7050 \
-  -e KUDU_MASTER_EXTRA_OPTS='--webserver_advertised_addresses my-docker-host:18051 --rpc_advertised_addresses my-docker-host:17051' \
-  -e KUDU_TSERVER_EXTRA_OPTS='--webserver_advertised_addresses my-docker-host:18050 --rpc_advertised_addresses my-docker-host:17050' \
+docker run -d --rm --name apache-kudu -p 8050:8050 -p 8051:8051 -p 7050:7050 -p 7051:7051 \
+  -e KUDU_MASTER_EXTRA_OPTS='--webserver_advertised_addresses localhost:8051 --rpc_advertised_addresses localhost:7051 --rpc-encryption=disabled --rpc_authentication=disabled --unlock_unsafe_flags=true --allow_unsafe_replication_factor=true --default_num_replicas=1 --rpc_negotiation_timeout_ms=90000' \
+  -e KUDU_TSERVER_EXTRA_OPTS='--webserver_advertised_addresses localhost:8050 --rpc_advertised_addresses localhost:7050 --rpc-encryption=disabled --rpc_authentication=disabled  --rpc_negotiation_timeout_ms=90000' \
   usuresearch/kudu-docker-slim
-```
-
+ ```
+  
+  
+  
+  
+  
+  
+  
